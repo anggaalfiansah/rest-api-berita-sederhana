@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 // Untuk register
 exports.register = async (req, res) => {
   const { Nama, Email, Telpon, TanggalLahir, Password } = req.body;
-  const FotoProfil = `images/profile/${req.file.filename}`;
   try {
     const email = await UserData.findOne({ Email });
     const telpon = await UserData.findOne({ Telpon });
@@ -19,7 +18,6 @@ exports.register = async (req, res) => {
         Email,
         Telpon,
         Password,
-        FotoProfil,
       });
 
       // Mengenkripsi password

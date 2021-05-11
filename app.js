@@ -11,10 +11,28 @@ var commentRouter = require("./routes/comments.route");
 
 var app = express();
 
-// koneksi mongodb
+// Membuat koneksi ke mongodb - start ==================================================================>
+
+// Pertama, kita import dahulu dotenv untuk meload kode koneksi yang kita simpan di config.env
+const dotenv = require("dotenv");
+
+// Kedua, kita import dulu mongoose untuk melakukan koneksi ke mongodb
+// disini namanya kita deklarasikan menjadi mongodb
 const mongodb = require("mongoose");
-const koneksi =
-  "mongodb+srv://baba:studio@cluster0.uwozh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+// Ketiga, kita load dulu kode koneksi dari file config.env
+
+// Untuk Menentukan path file .env mana yang akan digunakan
+dotenv.config({ path: "./config.env" });
+// Untuk Mengambil kode koneksi mongodb dari config.env dan dimasukan kedalam variabel koneksi
+const koneksi = process.env.DATABASE.replace(
+  "<password>",
+  process.env.DATABASE_PASSWORD
+);
+
+// Keempat, kita langsung buat koneksi menggunakan mongoose yang kita deklarasikan dengan nama mongodb
+
+// Untuk koneksi ke mongodb dengan variabel koneksi yang sudah kita buat
 mongodb
   .connect(koneksi, {
     useNewUrlParser: true,
@@ -22,11 +40,15 @@ mongodb
     useFindAndModify: true,
   })
   .then(() => {
+    // Jika koneksi berhasil maka kita akan mengirim pesan konsole "Koneksi Berhasil"
     console.log("Koneksi Berhasil");
   })
-  .catch((e) => {
-    console.log("MONGOERROR", e);
+  .catch((err) => {
+    // Jika koneksi gagal maka kita akan mengirim pesan konsole "MONGOERROR" serta errornya
+    console.log("MONGOERROR", err);
   });
+
+// Membuat koneksi ke mongodb - end ==================================================================>
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

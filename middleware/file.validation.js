@@ -1,6 +1,6 @@
 var multer = require("multer");
 
-// Konfigurasi Upload Foto Profil
+// Konfigurasi Folder Untuk Foto Profil
 const multerStorageProfil = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images/profile");
@@ -14,7 +14,7 @@ const multerStorageProfil = multer.diskStorage({
   },
 });
 
-// Konfigurasi Upload Poster
+// Konfigurasi Folder Untuk Poster
 const multerStoragePoster = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images/poster");
@@ -41,12 +41,13 @@ const multerFilterImage = (req, file, cb) => {
   }
 };
 
-
+// Untuk Upload Foto Profil
 exports.UploadFotoProfil = multer({
   storage: multerStorageProfil,
   fileFilter: multerFilterImage,
 }).single("FotoProfil");
 
+// Untuk Upload Poster
 exports.UploadPoster = multer({
   storage: multerStoragePoster,
   fileFilter: multerFilterImage,
